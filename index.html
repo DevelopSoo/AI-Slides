@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>스파르타 Kant 시연 강의</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: 'var(--accent)',
+            muted: 'var(--muted)',
+            warn: 'var(--warn)',
+          },
+          fontFamily: {
+            sans: ['"Pretendard Variable"', 'Pretendard', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="css/slides.css" />
+</head>
+<body>
+  <svg width="0" height="0" class="absolute" aria-hidden="true">
+    <symbol id="pic" viewBox="0 0 120 96">
+      <rect x="4" y="4" width="112" height="88" rx="10" fill="none" stroke="currentColor" stroke-width="6" />
+      <circle cx="36" cy="32" r="10" fill="currentColor" />
+      <path d="M12 82 L46 50 L66 68 L84 52 L110 80" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round" />
+    </symbol>
+  </svg>
+
+  <div id="deck">
+    <!-- 1. 표지 -->
+    <section class="slide flex flex-col items-center justify-center text-center">
+      <h1 class="text-[120px] font-extrabold leading-tight tracking-tight">
+        스파르타 <span class="text-accent">Kant</span> 시연 강의
+      </h1>
+      <div class="w-24 h-[6px] bg-accent rounded-full my-12"></div>
+      <p class="text-[44px] font-medium text-muted">
+        AI 리터러시 &amp; 프롬프트 엔지니어링
+        <span class="sep">/</span> RAG
+        <span class="sep">/</span> LLMOps
+      </p>
+    </section>
+
+    <!-- 2. AI 리터러시 & 프롬프트 엔지니어링 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        1. AI 리터러시 <span class="text-accent">&amp;</span> 프롬프트 엔지니어링
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[auto_1fr] gap-x-12 gap-y-16 items-baseline mt-24">
+        <p data-step="1" class="text-[60px] font-bold whitespace-nowrap">AI 리터러시</p>
+        <p data-step="2" class="flex text-[44px] leading-snug text-muted">
+          <span class="text-accent mr-4 shrink-0">–</span><span>AI를 <em class="hl">이해</em>하고, <em class="hl-warn">한계</em>를 알고
+          <em class="hl">비판적</em>으로 판단하며, 목적에 맞게 <em class="hl">활용</em>하는 능력</span>
+        </p>
+
+        <p data-step="3" class="text-[60px] font-bold whitespace-nowrap">프롬프트 엔지니어링</p>
+        <p data-step="4" class="flex text-[44px] leading-snug text-muted">
+          <span class="text-accent mr-4 shrink-0">–</span><span>원하는 결과를 얻기 위해 AI에게 주는 입력을
+          <em class="hl">설계</em>하고, <em class="hl">테스트</em>하고, <em class="hl">개선</em>하는 일</span>
+        </p>
+      </div>
+
+      <p data-step="5" class="mt-auto text-center text-[52px] font-semibold leading-snug">
+        AI를 <span class="text-accent">이해</span>하는 것에서 시작해,
+        AI에게 <span class="text-accent">올바르게 지시</span>하는 방법
+      </p>
+    </section>
+
+    <!-- 3. LLM -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">LLM</h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-3 gap-x-16 mt-20 text-center">
+        <p data-step="1" class="col-span-3 grid grid-cols-3 gap-x-16 text-[110px] font-extrabold leading-none tracking-tight">
+          <span><span class="text-accent">L</span>arge</span>
+          <span><span class="text-accent">L</span>anguage</span>
+          <span><span class="text-accent">M</span>odel</span>
+        </p>
+
+        <div data-step="2" class="reveal-down">
+          <svg class="arrow" viewBox="0 0 40 120" aria-hidden="true"><path d="M20 4 V108 M6 94 L20 110 L34 94" /></svg>
+          <p class="meaning"><em class="hl">방대한</em> 데이터와<br />거대한 규모</p>
+        </div>
+        <div data-step="3" class="reveal-down">
+          <svg class="arrow" viewBox="0 0 40 120" aria-hidden="true"><path d="M20 4 V108 M6 94 L20 110 L34 94" /></svg>
+          <p class="meaning">사람의 <em class="hl">언어</em>를<br />다룸</p>
+        </div>
+        <div data-step="4" class="reveal-down">
+          <svg class="arrow" viewBox="0 0 40 120" aria-hidden="true"><path d="M20 4 V108 M6 94 L20 110 L34 94" /></svg>
+          <p class="meaning">다음 단어를<br /><em class="hl">예측</em>하는 모델</p>
+        </div>
+      </div>
+
+      <p data-step="5" class="mt-auto text-center text-[52px] font-semibold leading-snug">
+        <span class="text-accent">방대한 글</span>을 학습해,
+        사람의 <span class="text-accent">언어</span>를 이해하고 만들어 내는 AI
+      </p>
+    </section>
+
+    <!-- 4. 다음 단어 예측 시연 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        LLM은 어떻게 <span class="text-accent">답</span>을 만들까?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[auto_1fr] gap-x-10 gap-y-12 items-center mt-16">
+        <span data-step="1" class="role">질문</span>
+        <p data-step="1" class="text-[56px] font-semibold">비 오는 날 점심 메뉴 추천해 줘</p>
+
+        <span data-step="2" class="role role-ai">AI</span>
+        <p class="answer text-[64px] font-bold">
+          <span data-step="2" class="token">
+            <span class="word">비 오는 날엔</span>
+            <span class="cands">
+              <span class="cand"><b>비 오는 날엔</b><i style="--p: 48%"></i><em>48%</em></span>
+              <span class="cand"><b>오늘은</b><i style="--p: 22%"></i><em>22%</em></span>
+              <span class="cand"><b>점심으로</b><i style="--p: 14%"></i><em>14%</em></span>
+            </span>
+          </span>
+          <span data-step="3" class="token">
+            <span class="word">따뜻한</span>
+            <span class="cands">
+              <span class="cand"><b>따뜻한</b><i style="--p: 64%"></i><em>64%</em></span>
+              <span class="cand"><b>매콤한</b><i style="--p: 18%"></i><em>18%</em></span>
+              <span class="cand"><b>시원한</b><i style="--p: 5%"></i><em>5%</em></span>
+            </span>
+          </span>
+          <span data-step="4" class="token">
+            <span class="word">국물 요리</span>
+            <span class="cands">
+              <span class="cand"><b>국물 요리</b><i style="--p: 58%"></i><em>58%</em></span>
+              <span class="cand"><b>칼국수</b><i style="--p: 24%"></i><em>24%</em></span>
+              <span class="cand"><b>커피</b><i style="--p: 6%"></i><em>6%</em></span>
+            </span>
+          </span>
+          <span data-step="5" class="token">
+            <span class="word">어때요?</span>
+            <span class="cands">
+              <span class="cand"><b>어때요?</b><i style="--p: 67%"></i><em>67%</em></span>
+              <span class="cand"><b>추천해요</b><i style="--p: 21%"></i><em>21%</em></span>
+              <span class="cand"><b>좋아요</b><i style="--p: 8%"></i><em>8%</em></span>
+            </span>
+          </span>
+          <span data-step="2" class="caret"></span>
+        </p>
+      </div>
+
+      <div data-step="6" class="summary mt-auto text-center text-[48px] font-semibold leading-snug">
+        <p>다음 단어를 하나씩 <span class="text-accent">예측</span>해서 문장을 만든다</p>
+        <p class="mt-3">
+          <span class="text-warn">외운</span> 게 아니라 <span class="text-accent">패턴</span>을 익혔다
+          <span class="text-muted mx-3">→</span>처음 보는 질문에도 답한다
+        </p>
+      </div>
+
+      <p class="note">※ 확률은 이해를 돕기 위한 예시입니다</p>
+    </section>
+
+    <!-- 5. 프롬프트가 중요한 이유 -->
+    <section class="slide narrow flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        <span class="text-accent">프롬프트</span>가 중요한 이유
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div data-step="1" class="grid grid-cols-[1fr_1.15fr] gap-x-20 mt-12">
+        <!-- 왼쪽: 조건이 붙어 가는 프롬프트 -->
+        <div>
+          <span class="role">프롬프트</span>
+          <div class="mt-6 flex flex-col gap-3 text-[48px] font-semibold">
+            <p>점심 메뉴 추천해 줘</p>
+            <p data-step="2" class="c2 cond"><span class="text-accent mr-4">+</span>비 오는 날</p>
+            <p data-step="3" class="c3 cond"><span class="text-accent mr-4">+</span>국물 있는 걸로</p>
+            <p data-step="4" class="c4 cond"><span class="text-accent mr-4">+</span>한식 면 요리로</p>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 조건에 따라 줄어드는 답의 범위 -->
+        <div>
+          <div class="flex items-center justify-between">
+            <span class="role role-ai">AI가 고를 수 있는 답</span>
+            <p class="count text-[52px] font-extrabold text-accent tabular-nums">
+              <span class="n12">12</span><span class="n7">7</span><span class="n4">4</span><span class="n1">1</span><span class="text-[32px] text-muted font-semibold ml-2">개</span>
+            </p>
+          </div>
+          <div class="menus mt-6 grid grid-cols-4 gap-4 text-[36px] font-semibold text-center">
+            <span class="menu out3">짜장면</span>
+            <span class="menu out2">샐러드</span>
+            <span class="menu out4">국밥</span>
+            <span class="menu out3">파스타</span>
+            <span class="menu out2">초밥</span>
+            <span class="menu final">칼국수</span>
+            <span class="menu out2">김밥</span>
+            <span class="menu out2">냉면</span>
+            <span class="menu out2">햄버거</span>
+            <span class="menu out3">떡볶이</span>
+            <span class="menu out4">순두부</span>
+            <span class="menu out4">우동</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-auto flex flex-col items-center gap-3 text-[44px] font-semibold leading-snug">
+        <p data-step="5">
+          <span class="text-accent">구체적</span>일수록
+          <span class="text-muted mx-2">→</span>답의 범위는 <span class="text-accent">좁아지고</span>,
+          결과는 <span class="text-accent">의도</span>에 가까워진다
+        </p>
+        <p data-step="6">
+          프롬프트 엔지니어링 <span class="text-muted mx-2">=</span>
+          이 원리로 <span class="text-accent">원하는 결과</span>를 얻도록 지시를 <span class="text-accent">설계</span>하는 일
+        </p>
+      </div>
+    </section>
+
+    <!-- 6. AI의 한계 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        AI의 <span class="text-warn">한계</span>
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-3 gap-10 mt-12">
+        <div data-step="1" class="limit-card">
+          <h3>환각</h3>
+          <p class="en">Hallucination</p>
+          <p class="core">사실이 아니라 <span class="text-accent">확률</span>로<br />고른다 → 그럴듯한 <span class="text-warn">거짓</span></p>
+          <div data-step="2" class="example">
+            <span class="ex-label">예</span>
+            "세종대왕 맥북 던짐 사건"을<br />실제 역사처럼 설명
+          </div>
+        </div>
+
+        <div data-step="3" class="limit-card">
+          <h3>지식 컷오프</h3>
+          <p class="en">Knowledge Cutoff</p>
+          <p class="core">학습이 끝난 <span class="text-accent">이후</span>는<br />모른다</p>
+          <div data-step="4" class="example">
+            <span class="ex-label">예</span>
+            "어제 경기 결과 알려 줘"
+            <p class="tip">※ 웹 검색으로 상당 부분 보완</p>
+          </div>
+        </div>
+
+        <div data-step="5" class="limit-card">
+          <h3>편향</h3>
+          <p class="en">Bias</p>
+          <p class="core">데이터가 <span class="text-accent">치우치면</span><br />답도 치우친다</p>
+          <div data-step="6" class="example">
+            <span class="ex-label">예</span>
+            "아침 식사 추천해 줘"<br />→ 팬케이크·베이컨 등 서양식 위주
+          </div>
+        </div>
+      </div>
+
+      <p data-step="7" class="mt-auto text-center text-[48px] font-semibold">
+        <span class="text-warn">한계</span>를 알아야
+        <span class="text-muted mx-2">→</span>AI의 답을 <span class="text-accent">비판적</span>으로 판단할 수 있다
+      </p>
+    </section>
+
+    <!-- 7. 정리 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">정리</h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="flow mt-12">
+        <div data-step="1" class="flow-row">
+          <span class="flow-num">1</span>
+          <div>
+            <p>LLM은 앞의 <span class="text-accent">문맥</span>을 보고 다음 단어를 고른다</p>
+          </div>
+        </div>
+
+        <div data-step="2">
+          <p class="flow-link">↓ 처음에 AI가 보는 문맥은 <span class="text-accent">프롬프트</span></p>
+          <div class="flow-row">
+            <span class="flow-num">2</span>
+            <div>
+              <p><span class="text-accent">프롬프트</span>가 바뀌면 답이 바뀐다</p>
+              <p class="flow-sub">→ 구체적일수록 의도에 가까워진다</p>
+            </div>
+          </div>
+        </div>
+
+        <div data-step="3">
+          <p class="flow-link">↓ 하지만</p>
+          <div class="flow-row">
+            <span class="flow-num">3</span>
+            <div>
+              <p><span class="text-warn">환각 · 지식 컷오프 · 편향</span>이 있다</p>
+            </div>
+          </div>
+        </div>
+
+        <div data-step="4">
+          <p class="flow-link">↓ 그래서</p>
+          <div class="flow-row">
+            <span class="flow-num">4</span>
+            <div>
+              <p><span class="text-accent">이해</span>하고, <span class="text-accent">비판적</span>으로 판단하고, <span class="text-accent">잘 지시</span>해야 한다</p>
+              <p class="flow-sub">= AI 리터러시 &amp; 프롬프트 엔지니어링</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. 프롬프팅 패턴 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        2. 프롬프팅 패턴 <span class="text-muted mx-2">-</span> 어떻게 <span class="text-accent">지시</span>할까?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="flex-1 grid grid-cols-3 gap-10 content-center">
+        <div data-step="1" class="pattern-card text-center">
+          <h3>제로샷</h3>
+          <p class="en">Zero-shot</p>
+        </div>
+        <div data-step="2" class="pattern-card text-center">
+          <h3>퓨샷</h3>
+          <p class="en">Few-shot</p>
+        </div>
+        <div data-step="3" class="pattern-card text-center">
+          <h3>CoT</h3>
+          <p class="en">Chain of Thought</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Shot이란? -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        <span class="text-accent">Shot</span>이란?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <p data-step="1" class="mt-10 text-center text-[64px] font-bold">
+        shot <span class="text-muted mx-4">=</span> <span class="text-accent">예시</span> 하나
+      </p>
+
+      <div class="shots mt-10 grid grid-cols-3 text-center">
+        <div data-step="2">
+          <div class="pics"><svg class="pic pic-empty"><use href="#pic" /></svg></div>
+          <p class="shot-name">제로샷 <span>0개</span></p>
+        </div>
+        <div data-step="3">
+          <div class="pics"><svg class="pic"><use href="#pic" /></svg></div>
+          <p class="shot-name">원샷 <span>1개</span></p>
+        </div>
+        <div data-step="4">
+          <div class="pics">
+            <svg class="pic"><use href="#pic" /></svg><svg class="pic"><use href="#pic" /></svg><svg class="pic"><use href="#pic" /></svg>
+          </div>
+          <p class="shot-name">퓨샷 <span>몇 개</span></p>
+        </div>
+      </div>
+
+      <div class="history mt-auto">
+        <p class="history-title">용어의 배경</p>
+        <div data-step="5" class="history-row">
+          <span class="history-when">과거</span>
+          <p>
+            고양이 하나를 알아보려면 사진 <span class="text-white">수만 장</span>을 학습<br />
+            <span class="text-accent">→</span> 이미 아는 걸 활용해 <span class="text-white">1장, 0장</span>으로 배울 수 없을까?
+            <span class="history-ex">('말'을 아는 AI에게 "줄무늬 있는 말" → 얼룩말)</span>
+          </p>
+        </div>
+        <div data-step="6" class="history-row">
+          <span class="history-when">2020</span>
+          <p>
+            GPT-3: 방대한 글로 이미 <span class="text-white">수많은 패턴</span>을 익힘<br />
+            <span class="text-accent">→</span> 다시 학습하지 않고, <span class="text-white">예시 몇 개</span>만 보고 새로운 일을 해냄
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. 예시가 왜 중요할까? -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        <span class="text-accent">예시</span>가 왜 중요할까?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[0.82fr_1.18fr] gap-10 mt-8 items-start">
+        <!-- 제로샷 -->
+        <div class="compare">
+          <p data-step="1" class="compare-label">제로샷</p>
+          <div data-step="1" class="prompt-box">
+            <p>다음 리뷰를 배송 불만, 품질 불만, 칭찬 중<br />하나로 분류해 줘.</p>
+            <p class="target">
+              포장도 꼼꼼하고 디자인도 사진이랑 똑같이 예뻐요. 선물용으로 딱이에요.
+              다만 뚜껑이 조금 뻑뻑해요.
+            </p>
+          </div>
+          <p data-step="2" class="ai-answer">AI <span class="mx-2">▸</span>칭찬</p>
+        </div>
+
+        <!-- 퓨샷 -->
+        <div class="compare">
+          <div class="flex items-center gap-6">
+            <p data-step="3" class="compare-label text-accent">퓨샷</p>
+            <p data-step="4" class="rule rule-chip">팀 기준: 불만이 하나라도 있으면 → 불만</p>
+          </div>
+          <div data-step="3" class="prompt-box">
+            <p>다음 예시를 참고해 리뷰를 분류해 줘.</p>
+            <ul class="shots-list">
+              <li><span>일주일이 지났는데 아직 안 왔어요</span><b>배송 불만</b></li>
+              <li><span>한 번 세탁했더니 색이 다 빠졌어요</span><b>품질 불만</b></li>
+              <li class="rule-row"><span>디자인은 마음에 드는데 배송이 열흘 걸렸어요</span><b>배송 불만</b></li>
+              <li class="rule-row"><span>가격 대비 다 좋은데 단추 하나가 덜렁거려요</span><b>품질 불만</b></li>
+              <li><span>포장도 꼼꼼하고 제품도 마음에 들어요</span><b>칭찬</b></li>
+            </ul>
+            <p class="target">
+              포장도 꼼꼼하고 디자인도 사진이랑 똑같이 예뻐요. 선물용으로 딱이에요.
+              다만 뚜껑이 조금 뻑뻑해요. →
+            </p>
+          </div>
+          <p data-step="5" class="ai-answer ai-answer-good">AI <span class="mx-2">▸</span>품질 불만</p>
+        </div>
+      </div>
+
+      <div class="mt-auto text-center">
+        <p data-step="6" class="text-[44px] font-semibold">
+          팀만 아는 <span class="text-accent">기준</span>은, <span class="text-accent">예시</span>로 보여 줘야 한다
+        </p>
+      </div>
+    </section>
+
+    <!-- 11. CoT란? -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        <span class="text-accent">CoT</span> <span class="text-muted mx-2">-</span> Chain of Thought
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-2 gap-12 mt-10">
+        <div data-step="1" class="calc">
+          <p class="compare-label">암산</p>
+          <div class="calc-box">
+            <p>5x − 28 = 2x + 2</p>
+            <p class="calc-q">x = <span>?</span> <span class="calc-emoji">😵‍💫</span></p>
+          </div>
+        </div>
+        <div class="calc">
+          <p data-step="2" class="compare-label text-accent">단계적으로 생각하면</p>
+          <div data-step="2" class="calc-box calc-box-on">
+            <p data-step="2"><b>①</b> 5x − 2x = 2 + 28</p>
+            <p data-step="3"><b>②</b> 3x = 30</p>
+            <p data-step="4"><b>③</b> x = 10 <span class="text-accent ml-3">✓</span></p>
+          </div>
+        </div>
+      </div>
+
+      <p data-step="5" class="mt-10 text-center text-[48px] font-semibold">
+        바로 답하지 말고, <span class="text-accent">단계를 나눠</span> 생각하게 한다
+      </p>
+
+      <div data-step="6" class="history mt-auto">
+        <p class="history-title">용어의 배경</p>
+        <div class="history-row">
+          <span class="history-when">2022</span>
+          <p>
+            예시에 <span class="text-white">풀이 과정</span>까지 넣었더니 <span class="text-accent">→</span> 추론 문제 정확도가 크게 향상<br />
+            "단계별로 생각해 보자" <span class="text-white">한 줄만</span> 넣어도 <span class="text-accent">→</span> 비슷한 효과
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. CoT 예시 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        <span class="text-accent">CoT</span> 적용해 보기
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[0.8fr_1.2fr] gap-10 mt-8 items-start">
+        <div class="compare">
+          <p data-step="1" class="compare-label">일반 질문</p>
+          <div data-step="1" class="prompt-box">
+            <p class="text-white">로그인 후 가끔 장바구니가 비어 보여.<br />원인이 뭐야?</p>
+          </div>
+          <div data-step="2" class="reason-box">
+            <p class="reason-ai">AI</p>
+            <p>캐시 문제일 가능성이 높아요.<br />브라우저 캐시를 지워 보세요.</p>
+          </div>
+        </div>
+
+        <div class="compare">
+          <p data-step="3" class="compare-label text-accent">CoT 적용</p>
+          <div data-step="3" class="prompt-box">
+            <p class="text-white">로그인 후 가끔 장바구니가 비어 보여.</p>
+            <p><b class="text-accent">①</b> 가능한 원인을 먼저 나열하고</p>
+            <p><b class="text-accent">②</b> 각각이 '가끔'이라는 증상과 맞는지 하나씩 따져 본 다음</p>
+            <p><b class="text-accent">③</b> 가장 가능성 높은 원인을 골라 줘</p>
+          </div>
+          <div data-step="4" class="reason-box reason-box-on">
+            <p data-step="4" class="reason-ai">AI</p>
+            <p data-step="4"><b>①</b> 원인 후보: 캐시 · 세션 만료 · 로그인과 장바구니 불러오기 순서</p>
+            <div data-step="5">
+              <p><b>②</b> '가끔'과 맞는지</p>
+              <ul class="checks">
+                <li>캐시 <span>매번 생길 문제</span><em class="ng">✕</em></li>
+                <li>세션 만료 <span>시간이 지나야 생김</span><em>△</em></li>
+                <li class="text-white">순서 어긋남 <span>타이밍에 따라 가끔</span><em class="ok">○</em></li>
+              </ul>
+            </div>
+            <p data-step="6"><b>③</b> 결론: <span class="text-accent font-bold">로그인 처리와 장바구니 불러오기 순서가 어긋남</span></p>
+          </div>
+        </div>
+      </div>
+
+      <p data-step="7" class="mt-auto text-center text-[44px] font-semibold">
+        생각하는 <span class="text-accent">순서</span>를 정해 주면, 원인을 <span class="text-accent">좁혀</span> 간다
+      </p>
+
+      <p class="note">※ 최근 추론 모델은 스스로 생각하지만, 판단 순서를 직접 정하고 싶을 때는 여전히 유효</p>
+    </section>
+
+    <!-- 13. 정리: 계단 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        정리 <span class="text-muted mx-2">-</span> <span class="text-accent">필요한 만큼</span> 더한다
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <p class="mt-8 text-[28px] font-semibold text-muted">작업이 복잡해질수록 <span class="text-accent">→</span></p>
+
+      <div class="stairs mt-4">
+        <div data-step="1" class="stair" style="--h: 220px">
+          <h3>제로샷</h3>
+          <p class="add">지시만</p>
+          <p class="fit">상식으로 판단할 수 있는 일</p>
+        </div>
+        <div data-step="2" class="stair" style="--h: 320px">
+          <h3>퓨샷</h3>
+          <p class="add">+ 예시</p>
+          <p class="fit">팀만의 기준이 있거나<br />출력 형식을 맞춰야 하는 일</p>
+        </div>
+        <div data-step="3" class="stair" style="--h: 420px">
+          <h3>CoT</h3>
+          <p class="add">+ 생각하는 순서</p>
+          <p class="fit">여러 단계의 판단이<br />필요한 일</p>
+        </div>
+      </div>
+
+      <div class="mt-auto text-center">
+        <p data-step="4" class="text-[40px] font-semibold">
+          최신 모델도 <span class="text-accent">우리 팀의 기준과 형식</span>은 모른다
+          <span class="text-muted mx-2">→</span>퓨샷 · CoT로 전달
+        </p>
+        <p data-step="5" class="mt-3 text-[32px] font-semibold text-muted">
+          매번 전달하는 규칙을 고정해 두려면? <span class="text-accent mx-2">▶</span><span class="text-white">시스템 프롬프트</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 14. 시스템 프롬프트란 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">3. 시스템 프롬프트</h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <p data-step="1" class="mt-8 text-[44px] font-semibold">
+        AI <span class="text-muted mx-2">=</span> 지식은 많지만, <span class="text-accent">우리 팀 규칙</span>은 모르는 신입 직원
+      </p>
+
+      <div data-step="2" class="sys-box mt-8">
+        <div class="flex items-center gap-4">
+          <span class="sys-label">시스템 프롬프트</span>
+          <span class="text-muted text-[28px]">= 업무 매뉴얼</span>
+          <span class="fixed-chip ml-auto">고정</span>
+        </div>
+        <p class="mt-4">
+          당신은 기술 문서를 요약하는 어시스턴트입니다.<br />
+          항상 <span class="text-accent">핵심 개념, 활용 예시, 주의사항</span>으로 나누어 설명하세요.
+        </p>
+      </div>
+
+      <p data-step="3" class="apply-line">↓ 모든 대화에 적용</p>
+
+      <div class="flex flex-col gap-4">
+        <div data-step="3" class="user-row">
+          <span class="user-label">유저 프롬프트</span>
+          <p>RAG가 무엇인지 설명해 줘</p>
+          <span class="change-chip">매번 바뀜</span>
+        </div>
+        <div data-step="4" class="user-row">
+          <span class="user-label">유저 프롬프트</span>
+          <p>LLMOps는 뭐야?</p>
+          <span class="change-chip">매번 바뀜</span>
+        </div>
+      </div>
+
+      <p data-step="5" class="mt-auto text-center text-[48px] font-semibold">
+        <span class="text-accent">한 번</span> 설정 <span class="text-muted mx-2">→</span> 이후 <span class="text-accent">모든 대화</span>에 계속 적용
+      </p>
+    </section>
+
+    <!-- 15. 무엇을 담을까? -->
+    <section class="slide sp flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        무엇을 <span class="text-accent">담을까</span>?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[0.85fr_1.15fr] gap-12 mt-8 items-start">
+        <ol class="comps">
+          <li data-step="1" class="comp"><span data-step="1" class="mark k-role" hidden></span><span class="flow-num">1</span><div><b>역할</b><p>관점과 말투가 달라진다</p></div></li>
+          <li data-step="2" class="comp"><span data-step="2" class="mark k-context" hidden></span><span class="flow-num">2</span><div><b>맥락과 이유</b><p>이유를 알면 비슷한 상황에도 같은 판단</p></div></li>
+          <li data-step="3" class="comp"><span data-step="3" class="mark k-format" hidden></span><span class="flow-num">3</span><div><b>출력 형식</b><p>"하지 마"보다 "이렇게 해"</p></div></li>
+          <li data-step="4" class="comp"><span data-step="4" class="mark k-examples" hidden></span><span class="flow-num">4</span><div><b>예시</b><p>완성본을 직접 보여 준다</p></div></li>
+          <li data-step="5" class="comp"><span data-step="5" class="mark k-behavior" hidden></span><span class="flow-num">5</span><div><b>행동 방식</b><p>모호하면 질문, 되돌리기 어려우면 확인</p></div></li>
+        </ol>
+
+        <div class="code-box tagged">
+          <div class="t-role"><i>&lt;role&gt;</i><p>당신은 이커머스 고객 리뷰를 분류하는 CS 담당자입니다.</p><i>&lt;/role&gt;</i></div>
+          <div class="t-context"><i>&lt;context&gt;</i><p>분류 결과는 고객 대응 우선순위를 정하는 데 사용됩니다.<br />따라서 칭찬이 섞여 있어도 불만이 하나라도 있으면 불만으로 분류하세요.</p><i>&lt;/context&gt;</i></div>
+          <div class="t-format"><i>&lt;format&gt;</i><p>배송 불만, 품질 불만, 칭찬 중 하나의 라벨만 출력하세요.<br /><span class="t-behavior">리뷰만으로 판단하기 어려우면 "확인 필요"를 출력하세요.</span></p><i>&lt;/format&gt;</i></div>
+          <div class="t-examples"><i>&lt;examples&gt;</i><p>디자인은 마음에 드는데 배송이 열흘 걸렸어요 → 배송 불만<br />포장도 꼼꼼하고 제품도 마음에 들어요 → 칭찬</p><i>&lt;/examples&gt;</i></div>
+        </div>
+      </div>
+
+      <p data-step="6" class="mt-auto text-center text-[40px] font-semibold">
+        <span data-step="6" class="mark m-tags" hidden></span>
+        프롬프트가 길어지면, <code class="inline-code">&lt;태그&gt;</code>나 <code class="inline-code"># 제목</code><span class="text-muted text-[30px] mx-1">(마크다운)</span>으로 <span class="text-accent">구역</span>을 나눈다
+      </p>
+    </section>
+
+    <!-- 16. 어디에 넣을까? -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        어디에 <span class="text-accent">넣을까</span>?
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="flex-1 grid grid-cols-3 gap-10 content-center">
+        <div data-step="1" class="place-card">
+          <p class="kind">채팅 도구</p>
+          <h3>Claude · ChatGPT</h3>
+          <p class="where">프로젝트 지침</p>
+        </div>
+        <div data-step="2" class="place-card">
+          <p class="kind">코딩 도구</p>
+          <h3>Claude Code · Cursor</h3>
+          <p class="where">CLAUDE.md · rules 파일</p>
+        </div>
+        <div data-step="3" class="place-card">
+          <p class="kind">서비스 개발</p>
+          <h3>API 호출</h3>
+          <p class="where">system 값</p>
+        </div>
+      </div>
+
+      <p data-step="4" class="text-center text-[52px] font-semibold">
+        위치는 달라도, <span class="text-accent">역할은 같다</span>
+      </p>
+    </section>
+
+    <!-- 17. 예: Claude 프로젝트 지침 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        예: Claude <span class="text-accent">프로젝트 지침</span>
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-[auto_1fr] gap-14 items-center mt-10">
+        <div data-step="1" class="shot-wrap">
+          <img src="images/claude-prompt-instruction.png" alt="Claude 프로젝트 지침 설정 화면" />
+          <span data-step="2" class="shot-mark" style="left: 13.8%; top: 29%; width: 69%; height: 45.5%"></span>
+        </div>
+        <div class="flex flex-col gap-10">
+          <p data-step="2" class="text-[44px] font-semibold leading-snug">
+            여기에<br /><span class="text-accent">시스템 프롬프트</span>를 입력
+          </p>
+          <p data-step="3" class="text-[36px] leading-snug text-muted">
+            이 프로젝트의<br /><span class="text-white">모든 대화</span>에 적용된다
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 18. 서비스 개발에서는 -->
+    <section class="slide svc flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        서비스 개발에서는
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div data-step="1" class="code-box py-code mt-12">
+<pre>client.messages.create(
+    model="...",
+    max_tokens=1024,
+<span class="ln ln-sys">    system="당신은 이커머스 고객 리뷰를 분류하는 CS 담당자입니다. ...",<em data-step="2" class="line-tag">개발자가 미리 정해 둠</em><i data-step="2" class="mark m-sys" hidden></i></span><span class="ln ln-user">    messages=[{"role": "user", "content": "리뷰: 배송은 빨랐는데 사이즈가 생각보다 작아요."}]<em data-step="3" class="line-tag">사용자는 질문만 입력</em><i data-step="3" class="mark m-user" hidden></i></span>)</pre>
+      </div>
+
+      <p data-step="4" class="mt-auto text-center text-[48px] font-semibold">
+        시스템 프롬프트는 <span class="text-accent">사용자에게 보이지 않는다</span>
+      </p>
+    </section>
+
+    <!-- 19. 형식을 정해도 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        형식을 정해도, <span class="text-warn">항상</span> 지키진 않는다
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <p data-step="1" class="mt-10 text-[34px] text-muted">
+        시스템 프롬프트: <span class="text-white">"하나의 라벨만 출력하세요"</span>
+      </p>
+
+      <div class="fmt-table mt-8">
+        <div class="fmt-head"><span>AI 답변</span><span>프로그램</span></div>
+        <div data-step="1" class="fmt-row"><code>품질 불만</code><b class="ok">✓ 처리</b></div>
+        <div data-step="2" class="fmt-row"><code>품질 불만입니다.</code><b class="ng">✕ 처리 실패</b></div>
+        <div data-step="3" class="fmt-row"><code>**품질 불만**</code><b class="ng">✕ 처리 실패</b></div>
+        <div data-step="4" class="fmt-row"><code>분류: 품질 불만</code><b class="ng">✕ 처리 실패</b></div>
+      </div>
+
+      <div class="mt-auto text-center">
+        <p data-step="5" class="text-[44px] font-semibold">
+          사람은 알아보지만, <span class="text-warn">프로그램</span>은 한 글자만 달라도 문제
+        </p>
+        <p data-step="6" class="mt-4 text-[36px] font-semibold text-muted">
+          형식을 확실하게 지키게 하려면? <span class="text-accent mx-2">▶</span><span class="text-white">구조화 출력</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 20. 4. 구조화 출력 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">4. 구조화 출력</h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <p data-step="1" class="mt-10 text-[40px] font-semibold">
+        AI 답변을 <span class="text-accent">서비스 화면</span>에 바로 보여준다면?
+      </p>
+
+      <div class="grid grid-cols-[1fr_auto_1fr] gap-10 items-center mt-10">
+        <div data-step="2">
+          <div class="code-box json-box">
+<pre>{
+  <b>"topic"</b>: "RAG",
+  <b>"summary"</b>: "외부 문서를 검색해
+              LLM 답변 품질을 높이는 구조",
+  <b>"use_case"</b>: ["사내 문서 검색", "정책 Q&amp;A"],
+  <b>"risk"</b>: "검색 품질이 낮으면 잘못된 답변 가능"
+}</pre>
+          </div>
+          <p class="mt-3 text-[22px] text-muted">JSON = <span class="text-accent">키</span> : 값 쌍으로 된 데이터 형식</p>
+        </div>
+
+        <div data-step="3" class="flex flex-col items-center gap-2 text-accent">
+          <span class="text-[64px] font-bold leading-none">→</span>
+          <span class="text-[22px] font-semibold text-muted">키로 찾아서 표시</span>
+        </div>
+
+        <div data-step="3" class="ui-card">
+          <p class="ui-bar">서비스 화면</p>
+          <p class="ui-title">RAG</p>
+          <p class="ui-text">외부 문서를 검색해 LLM 답변 품질을 높이는 구조</p>
+          <div class="ui-chips"><span>사내 문서 검색</span><span>정책 Q&amp;A</span></div>
+          <p class="ui-risk">⚠ 검색 품질이 낮으면 잘못된 답변 가능</p>
+        </div>
+      </div>
+
+      <p data-step="4" class="mt-auto text-center text-[44px] font-semibold">
+        구조화 출력 <span class="text-muted mx-2">=</span> AI 답변을 <span class="text-accent">미리 정한 구조</span>(JSON)로 받는 방식
+      </p>
+    </section>
+
+    <!-- 21. 구조가 흔들리면 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        구조가 <span class="text-warn">흔들리면</span>
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-3 gap-8 mt-10">
+        <div data-step="1" class="compare">
+          <p class="compare-label text-accent">의도한 구조</p>
+          <div class="code-box json-box json-sm">
+<pre>{
+  "topic": "RAG",
+  "summary": "외부 문서를…",
+  "use_case": [
+    "사내 문서 검색",
+    "정책 Q&amp;A"
+  ],
+  "risk": "검색 품질이…"
+}</pre>
+          </div>
+        </div>
+        <div data-step="2" class="compare">
+          <p class="compare-label">키 이름이 바뀌면</p>
+          <div class="code-box json-box json-sm">
+<pre>{
+  <s>"주제"</s>: "RAG",
+  <s>"요약"</s>: "외부 문서를…",
+  <s>"사용케이스"</s>: [
+    "사내 문서 검색",
+    "정책 Q&amp;A"
+  ],
+  <s>"위험"</s>: "검색 품질이…"
+}</pre>
+          </div>
+        </div>
+        <div data-step="3" class="compare">
+          <p class="compare-label">데이터 형태가 바뀌면</p>
+          <div class="code-box json-box json-sm">
+<pre>{
+  "topic": "RAG",
+  "summary": "외부 문서를…",
+  <s>"use_case_1"</s>: "사내 문서 검색",
+  <s>"use_case_2"</s>: "정책 Q&amp;A",
+
+
+  "risk": "검색 품질이…"
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div data-step="4" class="break-flow mt-auto">
+        <code>data["topic"]</code>
+        <span class="text-muted">→</span>
+        <span class="text-warn">값을 찾지 못함</span>
+        <span class="text-muted">→</span>
+        <span class="ui-card ui-empty">화면이 비거나 오류</span>
+      </div>
+    </section>
+
+    <!-- 22. 구조를 고정하는 방법 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        구조를 <span class="text-accent">고정</span>하는 방법
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div class="grid grid-cols-2 gap-12 mt-12 items-stretch">
+        <div data-step="1" class="compare">
+          <div class="flex items-baseline gap-4">
+            <p class="compare-label text-accent">프롬프트에 구조 명시</p>
+            <p class="text-[22px] text-muted">퓨샷과 같은 원리</p>
+          </div>
+          <div class="code-box json-box json-sm flex-1">
+<pre>RAG를 정리해 줘.
+아래 구조의 JSON만 출력해.
+
+{ "topic": "주제", "summary": "한 문장 요약",
+  "use_case": ["활용 사례"], "risk": "주의할 점" }</pre>
+          </div>
+        </div>
+
+        <div data-step="2" class="compare">
+          <p class="compare-label">결과</p>
+          <div class="result-box flex-1 flex flex-col justify-center">
+            <p class="text-[40px]"><span class="text-accent">✓</span> 매번 <span class="text-white">같은 키</span>를 가진 JSON</p>
+            <p class="mt-4 font-mono text-[26px] text-muted">topic · summary · use_case · risk</p>
+          </div>
+        </div>
+      </div>
+
+      <p data-step="3" class="mt-auto text-center text-[48px] font-semibold">
+        구조를 <span class="text-accent">명시</span>하면, AI가 그 구조에 <span class="text-accent">맞춰</span> 답한다
+      </p>
+    </section>
+
+    <!-- 23. 시연 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        시연 <span class="text-muted mx-2">-</span> 구조를 <span class="text-accent">지정</span>하면
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <!-- 캡처 화면 안에 프롬프트가 함께 보여서, 프롬프트 상자 없이 캡처만 크게 보여 준다 -->
+      <div class="grid grid-cols-[1fr_760px] gap-12 mt-8 items-start">
+        <div class="compare">
+          <p data-step="1" class="compare-label">구조 미지정</p>
+          <div data-step="1" class="capture">
+            <img src="images/no-structure.png" alt="구조를 지정하지 않은 프롬프트의 실행 결과" />
+          </div>
+          <p data-step="2" class="capture-note">→ 제목·문장·목록이 섞인 <span class="text-warn">자유 형식</span></p>
+        </div>
+
+        <div class="compare">
+          <p data-step="3" class="compare-label text-accent">구조 지정</p>
+          <div data-step="3" class="capture capture-on">
+            <img src="images/has-structure.png" alt="JSON 구조를 지정한 프롬프트의 실행 결과" />
+          </div>
+          <p data-step="4" class="capture-note">→ 정한 키 그대로 <span class="text-accent">JSON</span></p>
+        </div>
+      </div>
+
+      <p data-step="5" class="mt-auto text-center text-[38px] font-semibold">
+        프롬프트만으로도 <span class="text-accent">대부분</span> 지키지만, <span class="text-warn">보장은 아니다</span>
+      </p>
+    </section>
+
+    <!-- 24. 코드로 한 번 더 검증 -->
+    <section class="slide flex flex-col">
+      <h2 class="text-[72px] font-bold tracking-tight">
+        코드로 <span class="text-accent">한 번 더</span> 검증
+      </h2>
+      <div class="w-20 h-[6px] bg-accent rounded-full mt-8"></div>
+
+      <div data-step="1" class="flex items-center gap-12 mt-12">
+        <div class="dots">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="dot-ng"></i>
+        </div>
+        <p class="text-[36px] font-semibold text-muted">
+          거의 항상 맞지만, <span class="text-warn">가끔 예외</span>가 생긴다
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-10 mt-14">
+        <div data-step="2" class="guard-card">
+          <b>1. 검증</b>
+          <p>정한 구조가 맞는지 확인</p>
+        </div>
+        <div data-step="3" class="guard-card">
+          <b>2. 재시도</b>
+          <p>틀리면 다시 요청</p>
+        </div>
+        <div data-step="4" class="guard-card">
+          <b>3. 폴백</b>
+          <p>그래도 안 되면 대체 응답</p>
+        </div>
+      </div>
+
+      <p data-step="5" class="mt-auto text-center text-[48px] font-semibold">
+        구조는 <span class="text-accent">프롬프트</span>로 정하고, <span class="text-accent">코드</span>로 한 번 더 검증한다
+      </p>
+      
+    </section>
+
+    <div id="page-number"></div>
+  </div>
+
+  <script src="js/slides.js"></script>
+</body>
+</html>

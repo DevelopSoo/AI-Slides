@@ -1,0 +1,1272 @@
+/* 강조색은 --accent 하나만 바꾸면 전체에 반영된다. */
+:root {
+  --accent: #ffc93c;
+  --muted: #a1a1aa;
+  /* 한계·주의처럼 부정적인 개념에만 쓰는 보조 강조색 */
+  --warn: #ff5c5c;
+  --bg: #000;
+  --fg: #fff;
+  --stage-w: 1920px;
+  --stage-h: 1080px;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Pretendard Variable', Pretendard, system-ui, sans-serif;
+  word-break: keep-all;
+}
+
+/* 1920x1080 고정 무대를 화면 중앙에 두고 JS가 scale만 조정한다. */
+#deck {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--stage-w);
+  height: var(--stage-h);
+  transform: translate(-50%, -50%) scale(var(--scale, 1));
+  transform-origin: center center;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: 120px 160px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s;
+}
+
+.slide > * {
+  flex-shrink: 0;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* data-step 요소: 순서대로 아래에서 떠오르며 나타난다.
+   transition 대신 animation을 써서, 다른 강조 효과로 스타일이 다시 계산돼도 처음부터 재시작되지 않게 한다. */
+[data-step] {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+[data-step].shown {
+  animation: step-in 0.5s ease both;
+}
+
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 제자리에서 흐려졌다 나타나기만 하는 요소 */
+@keyframes step-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal-down.shown,
+.answer .caret.shown,
+.shot-mark.shown {
+  animation-name: step-fade;
+}
+
+.answer .token.shown {
+  animation: none;
+}
+
+.sep {
+  color: var(--accent);
+  opacity: 0.6;
+  margin: 0 0.4em;
+}
+
+#page-number {
+  position: absolute;
+  right: 60px;
+  bottom: 40px;
+  font-size: 24px;
+  color: var(--muted);
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 설명 문장 속 강조 단어 */
+.hl {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.hl-warn {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--warn);
+}
+
+/* 화살표가 위에서 아래로 그려진 뒤 뜻이 나타나는 효과 */
+.reveal-down[data-step] {
+  transform: none;
+}
+
+.reveal-down .arrow {
+  display: block;
+  width: 40px;
+  height: 120px;
+  margin: 40px auto 32px;
+  overflow: visible;
+}
+
+.reveal-down .arrow path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.reveal-down.shown .arrow path {
+  stroke-dashoffset: 0;
+}
+
+.reveal-down .meaning {
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--muted);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease 0.45s, transform 0.5s ease 0.45s;
+}
+
+.reveal-down.shown .meaning {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 다음 단어 예측 시연 ───────────────────────── */
+.role {
+  justify-self: start;
+  padding: 8px 24px;
+  border: 2px solid var(--muted);
+  border-radius: 999px;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.role-ai {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.answer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3em;
+  min-height: 1.3em;
+}
+
+/* 토큰은 자기 차례가 오기 전에는 자리를 차지하지 않는다. */
+.answer .token[data-step] {
+  position: relative;
+  display: none;
+  opacity: 1;
+  transform: none;
+}
+
+.answer .token.shown {
+  display: inline-block;
+}
+
+/* 단어는 후보 중에서 선택된 뒤에 문장에 들어간다. */
+.token .word {
+  display: inline-block;
+  animation: word-in 0.4s ease 0.9s both;
+}
+
+@keyframes word-in {
+  from { opacity: 0; transform: translateY(24px); color: var(--accent); }
+  60% { opacity: 1; transform: none; color: var(--accent); }
+  to { opacity: 1; transform: none; color: var(--fg); }
+}
+
+/* 후보 단어와 확률 막대 */
+.cands {
+  position: absolute;
+  top: calc(100% + 32px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 32px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #0d0d0f;
+  font-size: 34px;
+  font-weight: 500;
+  white-space: nowrap;
+  animation: fade-in 0.3s ease both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.cand {
+  display: grid;
+  grid-template-columns: 200px 240px 90px;
+  align-items: center;
+  gap: 20px;
+  color: var(--muted);
+}
+
+.cand b {
+  font-weight: 600;
+}
+
+.cand i {
+  height: 18px;
+  width: var(--p);
+  border-radius: 9px;
+  background: #52525b;
+}
+
+.cand em {
+  font-style: normal;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 확률이 가장 높은 첫 번째 후보가 잠시 뒤 선택된다. */
+.cand:first-child {
+  animation: pick 0.3s ease 0.6s both;
+}
+
+.cand:first-child i {
+  animation: pick-bar 0.3s ease 0.6s both;
+}
+
+@keyframes pick {
+  to { color: var(--accent); }
+}
+
+@keyframes pick-bar {
+  to { background: var(--accent); }
+}
+
+/* 다음 토큰이 나오거나 결론이 나오면 이전 후보 상자는 사라진다. */
+.answer .token.shown:has(~ .token.shown) .cands,
+.slide:has(.summary.shown) .cands {
+  display: none;
+}
+
+/* 깜박이는 커서 */
+.answer .caret[data-step] {
+  transform: none;
+}
+
+.caret::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 0.9em;
+  background: var(--accent);
+  vertical-align: -0.1em;
+  animation: blink 1s steps(1) infinite;
+}
+
+.slide:has(.summary.shown) .caret {
+  display: none;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.note {
+  position: absolute;
+  left: 160px;
+  bottom: 40px;
+  font-size: 22px;
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* ── 프롬프트가 중요한 이유: 조건이 붙을수록 답의 범위가 줄어든다 ── */
+.menu {
+  padding: 14px 0;
+  border: 2px solid #3f3f46;
+  border-radius: 16px;
+  transition: opacity 0.6s ease, color 0.6s ease, border-color 0.6s ease,
+    background-color 0.6s ease, transform 0.6s ease;
+}
+
+.narrow:has(.c2.shown) .out2,
+.narrow:has(.c3.shown) .out3,
+.narrow:has(.c4.shown) .out4 {
+  opacity: 0.15;
+  text-decoration: line-through;
+  transform: scale(0.92);
+}
+
+.narrow:has(.c4.shown) .final {
+  color: #000;
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.12);
+}
+
+/* 남은 답의 개수 */
+.count [class^='n'] {
+  display: none;
+}
+
+.narrow .count .n12,
+.narrow:has(.c2.shown) .count .n7,
+.narrow:has(.c3.shown) .count .n4,
+.narrow:has(.c4.shown) .count .n1 {
+  display: inline;
+}
+
+.narrow:has(.c2.shown) .count .n12,
+.narrow:has(.c3.shown) .count .n7,
+.narrow:has(.c4.shown) .count .n4 {
+  display: none;
+}
+
+/* ── AI의 한계 카드 ───────────────────────── */
+.limit-card {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px 36px;
+  border: 2px solid #27272a;
+  border-top: 6px solid var(--warn);
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.limit-card h3 {
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--warn);
+  line-height: 1.1;
+}
+
+.limit-card .en {
+  margin-top: 8px;
+  font-size: 26px;
+  color: var(--muted);
+}
+
+.limit-card .core {
+  margin-top: 28px;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.limit-card .example {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 2px dashed #3f3f46;
+  font-size: 30px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.limit-card .ex-label {
+  display: table;
+  margin-bottom: 12px;
+  padding: 2px 14px;
+  border-radius: 8px;
+  background: #27272a;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.limit-card .tip {
+  margin-top: 16px;
+  font-size: 24px;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+/* ── 정리: 원인과 결과로 이어지는 흐름 ───────────── */
+.flow {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.flow-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.flow-num {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.flow-sub {
+  margin-top: 6px;
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.flow-link {
+  margin: 18px 0 18px 14px;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* ── 다음 강의 예고: 패턴 카드 ───────────────── */
+.pattern-card {
+  padding: 64px 40px;
+  border: 2px solid #27272a;
+  border-top: 6px solid var(--accent);
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.pattern-card h3 {
+  font-size: 80px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.pattern-card .en {
+  margin-top: 16px;
+  font-size: 32px;
+  color: var(--muted);
+}
+
+/* ── Shot이란? ───────────────────────── */
+.pics {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  height: 100px;
+}
+
+.pic {
+  width: 125px;
+  height: 100px;
+  color: var(--accent);
+}
+
+.pic-empty {
+  color: #3f3f46;
+}
+
+.shot-name {
+  margin-top: 20px;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.shot-name span {
+  margin-left: 8px;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.history {
+  padding-top: 28px;
+  border-top: 2px solid #27272a;
+  font-size: 30px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.history-title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #71717a;
+}
+
+.history-row {
+  display: flex;
+  gap: 32px;
+}
+
+.history-row + .history-row {
+  margin-top: 16px;
+}
+
+.history-when {
+  flex-shrink: 0;
+  width: 90px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.history-ex {
+  margin-left: 12px;
+  font-size: 26px;
+  color: #71717a;
+}
+
+/* ── 예시가 왜 중요할까? ─────────────────── */
+.compare {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.compare-label {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.prompt-box {
+  padding: 18px 30px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #0d0d0f;
+  font-size: 25px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.prompt-box .target {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px dashed #3f3f46;
+  color: var(--fg);
+}
+
+.shots-list {
+  margin-top: 8px;
+}
+
+.shots-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 1px 12px;
+  margin: 0 -12px;
+  border-radius: 8px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.shots-list b {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.shots-list b::before {
+  content: '→ ';
+  color: #71717a;
+}
+
+/* 팀 기준이 드러나는 예시 강조 */
+.slide:has(.rule.shown) .rule-row {
+  background: rgba(255, 201, 60, 0.14);
+  color: var(--fg);
+}
+
+.slide:has(.rule.shown) .rule-row b {
+  color: var(--accent);
+}
+
+.rule-chip {
+  padding: 6px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #000;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.ai-answer {
+  align-self: flex-start;
+  padding: 6px 24px;
+  border: 2px solid #52525b;
+  border-radius: 14px;
+  background: #18181b;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.ai-answer span {
+  color: var(--muted);
+}
+
+.ai-answer-good {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── CoT란? ─────────────────────────── */
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.calc-box {
+  min-height: 250px;
+  padding: 28px 48px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #0d0d0f;
+  font-size: 46px;
+  font-weight: 600;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+}
+
+.calc-box-on {
+  border-color: var(--accent);
+}
+
+.calc-box b {
+  margin-right: 16px;
+  color: var(--accent);
+}
+
+.calc-q {
+  margin-top: 16px;
+  color: var(--muted);
+}
+
+.calc-q span {
+  color: var(--warn);
+}
+
+/* ── CoT 적용해 보기 ───────────────────── */
+.reason-box {
+  padding: 18px 30px;
+  border: 2px solid #52525b;
+  border-radius: 20px;
+  background: #18181b;
+  font-size: 25px;
+  line-height: 1.45;
+}
+
+.reason-box-on {
+  border-color: var(--accent);
+}
+
+.reason-box > * + * {
+  margin-top: 6px;
+}
+
+.reason-box b {
+  margin-right: 8px;
+  color: var(--accent);
+}
+
+.reason-ai {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.checks {
+  margin: 4px 0 0 40px;
+  color: var(--muted);
+}
+
+.checks li {
+  display: grid;
+  grid-template-columns: 170px 1fr 40px;
+}
+
+.checks span {
+  color: #71717a;
+}
+
+.checks em {
+  font-style: normal;
+  font-weight: 800;
+  text-align: center;
+}
+
+.checks .ng {
+  color: var(--warn);
+}
+
+.checks .ok {
+  color: var(--accent);
+}
+
+/* ── 정리: 계단 ─────────────────────── */
+.stairs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: 0;
+  height: 420px;
+  border-bottom: 3px solid #3f3f46;
+}
+
+.stair {
+  height: var(--h);
+  padding: 32px 36px;
+  border-top: 6px solid var(--accent);
+  border-left: 2px solid #27272a;
+  background: linear-gradient(#141416, #0b0b0c);
+}
+
+.stair h3 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.stair .add {
+  margin-top: 14px;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stair .fit {
+  margin-top: 14px;
+  font-size: 28px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.calc-q .calc-emoji {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 64px;
+  vertical-align: -6px;
+  animation: wobble 1.6s ease-in-out infinite;
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* ── 3. 시스템 프롬프트 ─────────────────── */
+.sys-box {
+  padding: 28px 40px;
+  border: 3px solid var(--accent);
+  border-radius: 20px;
+  background: #0d0d0f;
+  font-size: 34px;
+  line-height: 1.5;
+}
+
+.sys-label {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.fixed-chip,
+.change-chip {
+  padding: 4px 18px;
+  border-radius: 999px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.fixed-chip {
+  background: var(--accent);
+  color: #000;
+}
+
+.change-chip {
+  margin-left: auto;
+  border: 2px solid #52525b;
+  color: var(--muted);
+}
+
+.apply-line {
+  margin: 14px 0 14px 40px;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 12px 40px;
+  border: 2px solid #3f3f46;
+  border-radius: 16px;
+  background: #18181b;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.user-label {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ── 무엇을 담을까? ─────────────────── */
+.comps {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.comp {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.comp .flow-num {
+  width: 52px;
+  height: 52px;
+  font-size: 28px;
+}
+
+.comp b {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.comp p {
+  margin-top: 2px;
+  font-size: 26px;
+  color: var(--muted);
+}
+
+.code-box {
+  padding: 24px 32px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.tagged {
+  font-size: 21px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.tagged > div {
+  padding: 4px 14px;
+  margin: 0 -14px;
+  border-radius: 10px;
+  transition: background-color 0.4s ease, color 0.4s ease, margin-top 0.5s ease;
+}
+
+/* 태그는 처음엔 숨겨 두고, 마지막 단계에서 같은 내용에 씌운다 */
+.tagged i {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-style: normal;
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--accent);
+  transition: max-height 0.5s ease, opacity 0.5s ease 0.2s;
+}
+
+.tagged p {
+  transition: padding-left 0.5s ease;
+}
+
+.tagged > div + div {
+  margin-top: 14px;
+}
+
+.sp:has(.m-tags.shown) .tagged i {
+  max-height: 32px;
+  opacity: 1;
+}
+
+.sp:has(.m-tags.shown) .tagged p {
+  padding-left: 24px;
+}
+
+.sp:has(.m-tags.shown) .tagged > div + div {
+  margin-top: 2px;
+}
+
+.inline-code {
+  padding: 2px 14px;
+  border-radius: 10px;
+  background: #27272a;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+
+.t-behavior {
+  border-radius: 6px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* 지금 설명 중인 구성 요소만 오른쪽에서 강조
+   (보이지 않는 .mark 요소로 단계를 감지해, 나타나는 애니메이션이 다시 시작되지 않게 한다) */
+.sp:has(.k-role.shown):not(:has(.k-context.shown)) .t-role,
+.sp:has(.k-context.shown):not(:has(.k-format.shown)) .t-context,
+.sp:has(.k-format.shown):not(:has(.k-examples.shown)) .t-format,
+.sp:has(.k-examples.shown):not(:has(.k-behavior.shown)) .t-examples {
+  background: rgba(255, 201, 60, 0.14);
+  color: var(--fg);
+}
+
+.sp:has(.k-role.shown):not(:has(.k-context.shown)) .t-role i,
+.sp:has(.k-context.shown):not(:has(.k-format.shown)) .t-context i,
+.sp:has(.k-format.shown):not(:has(.k-examples.shown)) .t-format i,
+.sp:has(.k-examples.shown):not(:has(.k-behavior.shown)) .t-examples i {
+  color: var(--accent);
+}
+
+.sp:has(.k-behavior.shown) .t-behavior {
+  background: rgba(255, 201, 60, 0.2);
+  color: var(--accent);
+}
+
+/* ── 어디에 넣을까? ─────────────────── */
+.place-card {
+  padding: 48px 40px;
+  border: 2px solid #27272a;
+  border-top: 6px solid var(--accent);
+  border-radius: 20px;
+  background: #0d0d0f;
+  text-align: center;
+}
+
+.place-card .kind {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.place-card h3 {
+  margin-top: 16px;
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.place-card .where {
+  display: inline-block;
+  margin-top: 28px;
+  padding: 8px 24px;
+  border-radius: 12px;
+  background: rgba(255, 201, 60, 0.14);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── 예: Claude 프로젝트 지침 ─────────────── */
+.shot-wrap {
+  position: relative;
+  width: 900px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.shot-wrap img {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  border: 2px solid #3f3f46;
+}
+
+.shot-mark[data-step] {
+  position: absolute;
+  border: 5px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.35);
+  transform: none;
+}
+
+/* ── 서비스 개발에서는 ─────────────────── */
+.py-code pre {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 26px;
+  line-height: 1.7;
+  color: var(--muted);
+  white-space: pre;
+}
+
+.py-code .ln {
+  display: block;
+  margin: 0 -16px;
+  padding: 0 16px;
+  border-radius: 8px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.svc:has(.m-sys.shown) .ln-sys,
+.svc:has(.m-user.shown) .ln-user {
+  background: rgba(255, 201, 60, 0.14);
+  color: var(--fg);
+}
+
+.line-tag {
+  display: block;
+  width: fit-content;
+  margin: 4px 0 8px 64px;
+  padding: 2px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #000;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-style: normal;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* ── 형식을 정해도 ─────────────────── */
+.fmt-table {
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.fmt-head,
+.fmt-row {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  align-items: center;
+  padding: 16px 40px;
+}
+
+.fmt-head {
+  background: #18181b;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.fmt-row + .fmt-row {
+  border-top: 1px solid #27272a;
+}
+
+.fmt-row code {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-weight: 600;
+  font-size: 34px;
+}
+
+.fmt-row b {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.fmt-row .ok {
+  color: var(--accent);
+}
+
+.fmt-row .ng {
+  color: var(--warn);
+}
+
+/* ── 4. 구조화 출력 ─────────────────── */
+.json-box pre {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 24px;
+  line-height: 1.6;
+  color: var(--muted);
+  white-space: pre;
+}
+
+.json-box b {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.json-sm pre {
+  font-size: 22px;
+  white-space: pre;
+}
+
+.json-box s {
+  text-decoration: none;
+  padding: 0 4px;
+  border-radius: 6px;
+  background: rgba(255, 92, 92, 0.18);
+  color: var(--warn);
+  font-weight: 700;
+}
+
+/* 화면 카드 */
+.ui-card {
+  padding: 28px 36px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.ui-bar {
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #71717a;
+}
+
+.ui-title {
+  font-size: 40px;
+  font-weight: 800;
+}
+
+.ui-text {
+  margin-top: 8px;
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+.ui-chips {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ui-chips span {
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: #fde68a;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.ui-risk {
+  margin-top: 16px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.break-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  font-size: 38px;
+  font-weight: 700;
+}
+
+.break-flow code {
+  padding: 6px 20px;
+  border-radius: 12px;
+  background: #18181b;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 32px;
+  color: var(--fg);
+}
+
+.ui-empty {
+  padding: 14px 32px;
+  border: 3px dashed var(--warn);
+  background: #18181b;
+  color: var(--warn);
+  font-size: 30px;
+}
+
+/* 시연 캡처 */
+.capture {
+  overflow: hidden;
+  border: 2px solid #3f3f46;
+  border-radius: 16px;
+  background: #fafaf7;
+}
+
+.capture-on {
+  border-color: var(--accent);
+}
+
+.capture img {
+  display: block;
+  width: 100%;
+  max-height: 430px;
+  object-fit: cover;
+  object-position: top;
+}
+
+.capture-note {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* ── 구조를 고정하는 방법 ─────────────── */
+.result-box {
+  padding: 32px 40px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #18181b;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dots {
+  display: flex;
+  gap: 14px;
+}
+
+.dots i {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent);
+}
+
+.dots .dot-ng {
+  background: var(--warn);
+}
+
+.guard-card {
+  padding: 44px 40px;
+  border: 2px solid #27272a;
+  border-top: 6px solid var(--accent);
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.guard-card b {
+  font-size: 48px;
+  font-weight: 800;
+}
+
+.guard-card p {
+  margin-top: 16px;
+  font-size: 30px;
+  color: var(--muted);
+}
