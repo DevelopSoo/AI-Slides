@@ -1270,3 +1270,1057 @@ body {
   font-size: 30px;
   color: var(--muted);
 }
+
+/* ── Part 표지 ─────────────────────── */
+.part-label {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+}
+
+.part-title {
+  margin-top: 20px;
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.part-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: left;
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.part-toc b {
+  display: inline-block;
+  min-width: 1.6em;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── 1. RAG가 필요한 이유 ─────────────── */
+.why-rag .limit-card {
+  padding: 28px 40px;
+}
+
+.why-rag .limit-card .core {
+  margin-top: 16px;
+}
+
+/* ── RAG: 이름의 뜻 ─────────────────── */
+.rag-name .reveal-down .arrow {
+  height: 100px;
+  margin: 32px auto 24px;
+}
+
+.rag-name .reveal-down .meaning {
+  font-size: 40px;
+}
+
+.rag-name .meaning b {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 52px;
+  font-weight: 800;
+  color: var(--fg);
+}
+
+/* ── 다른 방법은 없을까? ─────────────── */
+.method-card {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px;
+  border: 2px solid #27272a;
+  border-top: 6px solid #52525b;
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.method-card-on {
+  border-color: var(--accent);
+}
+
+.method-card h3 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.method-card-on h3 {
+  color: var(--accent);
+}
+
+.method-card .how {
+  margin-top: 12px;
+  font-size: 30px;
+  color: var(--muted);
+}
+
+.method-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 28px 0;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.method-card li {
+  display: flex;
+  gap: 14px;
+}
+
+.method-card li::before {
+  content: '✕';
+  flex-shrink: 0;
+  color: var(--warn);
+}
+
+.method-card li.ok::before {
+  content: '✓';
+  color: var(--accent);
+}
+
+.method-card .analogy {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 2px dashed #3f3f46;
+  font-size: 28px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.method-card-on .analogy {
+  color: var(--fg);
+}
+
+.method-card .ex-label {
+  display: table;
+  margin-bottom: 12px;
+  padding: 2px 14px;
+  border-radius: 8px;
+  background: #27272a;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+/* ── 2. 기본 RAG 파이프라인: 두 단계 지도 ─────────── */
+/* 열: 단계 이름 | 상자 7칸과 화살표 6칸이 번갈아 온다. 위아래 줄이 같은 열을 쓰면 세로로 맞춰진다. */
+.pipe-row {
+  display: grid;
+  grid-template-columns: 220px 156px repeat(6, 48px 156px);
+  align-items: center;
+}
+
+.pipe-row b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  border: 2px solid #3f3f46;
+  border-radius: 16px;
+  background: #0d0d0f;
+  font-size: 30px;
+  font-weight: 700;
+  transition: border-color 0.4s ease, color 0.4s ease;
+}
+
+.pipe-row i {
+  font-style: normal;
+  text-align: center;
+  font-size: 30px;
+  color: var(--muted);
+}
+
+.pipe-row em {
+  font-style: normal;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.pipe-label {
+  grid-column: 1;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.pipe-label span {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.pipe-links {
+  height: 84px;
+}
+
+.pipe-links span {
+  position: relative;
+  align-self: stretch;
+}
+
+.pl-same {
+  display: flex;
+  align-items: center;
+  padding-left: calc(50% + 16px);
+  font-size: 22px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pl-same::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - 1.5px);
+  top: 0;
+  bottom: 0;
+  border-left: 3px dashed #52525b;
+}
+
+.pl-down::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - 1.5px);
+  top: 0;
+  bottom: 12px;
+  border-left: 3px solid var(--muted);
+}
+
+.pl-down::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -10px;
+  border: 10px solid transparent;
+  border-top: 14px solid var(--muted);
+  border-bottom: 0;
+}
+
+.pipe-letters span {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.pipe-slide:has(.m-rag.shown) .pb-rag {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 파이프라인의 지금 단계 표시 (노란 선 오른쪽) */
+.pipe-mini {
+  position: absolute;
+  top: 222px;
+  right: 160px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+
+.pipe-mini .pm-label {
+  margin-right: 4px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.pipe-mini .pm-gap {
+  margin-left: 20px;
+}
+
+.pipe-mini i {
+  padding: 3px 12px;
+  border: 2px solid #3f3f46;
+  border-radius: 999px;
+  font-style: normal;
+  font-weight: 600;
+  color: #71717a;
+}
+
+.pipe-mini i.on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #000;
+}
+
+/* ── 준비 단계 - 인덱싱 ─────────────── */
+.index-flow {
+  display: grid;
+  grid-template-columns: 1fr 64px 1fr 64px 1fr 64px 0.62fr;
+  align-items: start;
+}
+
+.if-arrow {
+  padding-top: 136px;
+  text-align: center;
+  font-style: normal;
+  font-size: 40px;
+  color: var(--muted);
+}
+
+.if-doc,
+.if-list,
+.if-db {
+  height: 320px;
+}
+
+.if-doc {
+  padding: 20px 26px;
+  border: 2px solid #3f3f46;
+  border-radius: 16px;
+  background: #0d0d0f;
+  font-size: 22px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.if-doc-title {
+  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.if-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.if-list span {
+  display: flex;
+  align-items: center;
+  height: 66px;
+  padding: 0 22px;
+  border: 2px solid #3f3f46;
+  border-radius: 12px;
+  background: #0d0d0f;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.if-list .more {
+  border-style: dashed;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.if-vec span:not(.more) {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+.if-db {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  background: #0d0d0f;
+}
+
+.if-db b {
+  margin-bottom: 8px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.if-db i {
+  width: 64%;
+  height: 14px;
+  border-radius: 4px;
+  background: #3f3f46;
+}
+
+.if-cap {
+  margin-top: 16px;
+  font-size: 24px;
+  color: var(--muted);
+}
+
+.if-cap b {
+  display: block;
+  font-size: 32px;
+  color: var(--fg);
+}
+
+/* 문장 속 숫자 목록 (벡터) */
+.vec {
+  font-family: ui-monospace, Menlo, monospace;
+  color: var(--accent);
+}
+
+/* ── 임베딩 - 의미 지도 ─────────────── */
+.sem-map {
+  position: relative;
+  height: 420px;
+  border: 2px solid #27272a;
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+/* 지도 안의 요소는 제자리에서 나타난다 (점 위치가 흔들리지 않게) */
+.sem-map [data-step] {
+  transform: none;
+}
+
+.sem-map [data-step].shown {
+  animation-name: step-fade;
+}
+
+.sem-title {
+  position: absolute;
+  left: 28px;
+  top: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sem-map svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sem-map line {
+  stroke-width: 3;
+  stroke-dasharray: 10 8;
+}
+
+.sem-map .sl-near {
+  stroke: var(--accent);
+}
+
+.sem-map .sl-far {
+  stroke: #52525b;
+}
+
+/* 점의 중심이 left/top 좌표에 오도록 margin으로 맞춘다 (transform은 data-step 효과와 겹쳐서 쓰지 않는다) */
+.dot {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 36px;
+  margin: -18px 0 0 -9px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #d4d4d8;
+  white-space: nowrap;
+  transition: color 0.4s ease;
+}
+
+.dot::before {
+  content: '';
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #71717a;
+  transition: background-color 0.4s ease;
+}
+
+/* 이름표가 점 왼쪽에 붙는 점: right 좌표로 둔다 */
+.dot-l {
+  flex-direction: row-reverse;
+  margin: -18px -9px 0 0;
+}
+
+/* 질문 점: 이름표를 위에 두어 선과 겹치지 않게 한다.
+   data-step은 크기 없는 .pin에 두고, 안쪽 점만 transform으로 맞춘다. */
+.pin {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.pin .dot-q {
+  left: 0;
+  top: 0;
+  flex-direction: column-reverse;
+  gap: 8px;
+  height: auto;
+  margin: 0;
+  transform: translate(-50%, calc(-100% + 9px));
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dot-q::before {
+  border-radius: 3px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+.emb-slide:has(.m-q.shown) .d-leave {
+  color: var(--accent);
+}
+
+.emb-slide:has(.m-q.shown) .d-leave::before {
+  background: var(--accent);
+}
+
+.sem-tag {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sem-tag-near {
+  color: var(--accent);
+}
+
+/* ── 임베딩 모델 비교표 ─────────────── */
+.mt-head,
+.mt-row {
+  display: grid;
+  grid-template-columns: 500px 170px 220px 210px 1fr;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.mt-head {
+  padding-bottom: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.mt-row {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top: 2px solid #27272a;
+  font-size: 26px;
+  line-height: 1.35;
+  color: #d4d4d8;
+}
+
+.mt-row p {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.mt-row small {
+  display: block;
+  margin-bottom: 4px;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.mt-row em {
+  display: block;
+  font-style: normal;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.mt-num {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.mt-pick {
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  background: rgba(255, 201, 60, 0.06);
+}
+
+.mt-pick + .mt-row {
+  border-top: 0;
+}
+
+.mt-chip {
+  margin-right: 10px;
+  padding: 0 12px;
+  border-radius: 6px;
+  background: var(--accent);
+  font-weight: 700;
+  color: #000;
+}
+
+/* ── 질문 단계 - 검색: 유사도 막대 ─────────────── */
+.sim-title {
+  margin-bottom: 8px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sim-row {
+  display: grid;
+  grid-template-columns: 56px 340px 1fr 120px;
+  align-items: center;
+  column-gap: 24px;
+  height: 72px;
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sim-row b {
+  text-align: center;
+}
+
+.sim-row em {
+  font-style: normal;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-row i {
+  position: relative;
+  height: 30px;
+  border-radius: 8px;
+  background: #18181b;
+  overflow: hidden;
+}
+
+.sim-row i::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--p);
+  border-radius: 8px;
+  background: #52525b;
+}
+
+.sim-row.shown i::before {
+  animation: bar-grow 0.9s ease 0.2s both;
+}
+
+@keyframes bar-grow {
+  from { width: 0; }
+  to { width: var(--p); }
+}
+
+.sim-row.on {
+  color: var(--fg);
+}
+
+.sim-row.on b,
+.sim-row.on em {
+  color: var(--accent);
+}
+
+.sim-row.on i::before {
+  background: var(--accent);
+}
+
+.sim-cut {
+  margin: 6px 0;
+  padding-top: 8px;
+  border-top: 2px dashed #3f3f46;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+/* ── 보강 - LLM에 가는 프롬프트 ─────────────── */
+.final-prompt {
+  position: relative;
+  padding: 22px 32px;
+  border: 2px solid #3f3f46;
+  border-radius: 20px;
+  background: #0d0d0f;
+  font-size: 26px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.final-prompt .fp {
+  position: relative;
+  margin: 0 -16px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.final-prompt .fp + .fp {
+  margin-top: 12px;
+}
+
+.final-prompt .fp-tag {
+  color: #71717a;
+}
+
+/* 상자 테두리 위에 걸친 이름표 */
+.fp-legend {
+  position: absolute;
+  top: -18px;
+  left: 24px;
+  padding: 0 12px;
+  background: var(--bg);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.fp-legend span {
+  margin-left: 10px;
+  font-weight: 500;
+  color: #71717a;
+}
+
+.final-prompt em {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  padding: 2px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  font-style: normal;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #000;
+}
+
+/* 지금 설명 중인 구역만 강조 */
+.aug-slide:has(.m-inst.shown):not(:has(.m-rules.shown)) .fp-inst,
+.aug-slide:has(.m-rules.shown):not(:has(.m-q.shown)) .fp-rules,
+.aug-slide:has(.m-q.shown) .fp-q {
+  background: rgba(255, 201, 60, 0.12);
+  color: var(--fg);
+}
+
+/* ── 생성 - 답이 달라진다 ─────────────── */
+.gen-cmp .reason-box {
+  flex: 1;
+  padding: 28px 36px;
+  font-size: 34px;
+  line-height: 1.5;
+}
+
+.gen-cmp .reason-ai {
+  font-size: 24px;
+}
+
+.gen-src {
+  display: table;
+  margin-top: 18px;
+  padding: 2px 18px;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── 3. 검색 품질을 높이는 핵심 요소 ─────────────── */
+.bad-flow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.bad-flow span {
+  padding: 14px 28px;
+  border: 2px solid #3f3f46;
+  border-radius: 14px;
+  background: #0d0d0f;
+}
+
+.bad-flow .ng {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.bad-flow i {
+  font-style: normal;
+  color: var(--muted);
+}
+
+.group-card {
+  padding: 36px 40px;
+  border: 2px solid #27272a;
+  border-top: 6px solid var(--accent);
+  border-radius: 20px;
+  background: #0d0d0f;
+}
+
+.group-card .flow-num {
+  width: 52px;
+  height: 52px;
+  font-size: 28px;
+}
+
+.group-card h3 {
+  margin-top: 20px;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.gc-sub {
+  margin-top: 8px;
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.gc-stage {
+  display: table;
+  margin-top: 22px;
+  padding: 2px 16px;
+  border: 2px solid #3f3f46;
+  border-radius: 999px;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+/* ── 무엇을 넣나 - 청크 크기 비교 (29장 .method-card를 좁게) ─────────────── */
+.chunk-cards .method-card {
+  padding: 30px 36px;
+}
+
+.chunk-cards .method-card h3 {
+  font-size: 48px;
+}
+
+.chunk-cards .method-card .how {
+  margin-top: 8px;
+  font-size: 28px;
+}
+
+.chunk-cards .method-card ul {
+  gap: 8px;
+  margin: 14px 0 16px;
+  font-size: 28px;
+}
+
+.chunk-cards .method-card .analogy {
+  padding-top: 12px;
+  font-size: 26px;
+}
+
+.chunk-cards .method-card .ex-label {
+  display: inline-block;
+  margin: 0 12px 0 0;
+}
+
+.chunk-ex {
+  margin-top: 16px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #18181b;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #d4d4d8;
+}
+
+.extra-row {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 14px 28px;
+  border: 2px dashed #3f3f46;
+  border-radius: 16px;
+  font-size: 26px;
+  color: var(--muted);
+}
+
+.extra-row .extra-label {
+  font-weight: 700;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.extra-row b {
+  margin-right: 12px;
+  color: var(--accent);
+}
+
+/* ── 어떻게 찾나 - 검색 방식 비교표 ─────────────── */
+.st-row {
+  display: grid;
+  grid-template-columns: 1fr 260px 330px 300px;
+  align-items: stretch;
+  border-top: 2px solid #27272a;
+  font-size: 32px;
+}
+
+.st-row > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 112px;
+  padding: 0 22px;
+}
+
+.st-head {
+  border-top: 0;
+  font-weight: 800;
+}
+
+.st-head > * {
+  min-height: 0;
+  padding-top: 12px;
+  padding-bottom: 14px;
+}
+
+.st-head em {
+  font-style: normal;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.st-q {
+  font-weight: 600;
+}
+
+.st-row b {
+  font-weight: 700;
+}
+
+.st-row .ok {
+  color: var(--accent);
+}
+
+.st-row .ng {
+  color: var(--warn);
+}
+
+/* 하이브리드 열은 위에서 아래로 이어진 노란 띠로 */
+.st-hy {
+  background: rgba(255, 201, 60, 0.1);
+}
+
+.st-head .st-hy {
+  border-radius: 14px 14px 0 0;
+  color: var(--accent);
+}
+
+.st-row:last-child .st-hy {
+  border-radius: 0 0 14px 14px;
+}
+
+/* ── 무엇을 고르나 - 결과 선별 흐름 ─────────────── */
+.select-flow {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr 56px 1fr 56px 1fr;
+  align-items: stretch;
+}
+
+.select-flow > i {
+  align-self: center;
+  text-align: center;
+  font-style: normal;
+  font-size: 36px;
+  color: var(--muted);
+}
+
+.sf-step {
+  display: flex;
+  flex-direction: column;
+  min-height: 340px;
+  padding: 32px 28px;
+  border: 2px solid #3f3f46;
+  border-radius: 18px;
+  background: #0d0d0f;
+}
+
+.sf-on {
+  border-color: var(--accent);
+}
+
+.sf-step b {
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.sf-step p {
+  margin-top: 10px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--accent);
+}
+
+.sf-step em {
+  margin-top: auto;
+  padding-top: 18px;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.sf-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.sf-dots i {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #3f3f46;
+}
+
+.sf-dots i.on {
+  background: var(--accent);
+}
+
+/* ── 정리 - 좋은 답은 좋은 문맥에서 (8장 .flow를 한 단계 작게) ─────────────── */
+.final-flow .flow {
+  font-size: 40px;
+}
+
+.final-flow .flow-sub {
+  font-size: 30px;
+}
+
+.final-flow .flow-link {
+  margin: 12px 0 12px 14px;
+  font-size: 26px;
+}
+
+.part-tag {
+  align-self: center;
+  margin-left: auto;
+  padding: 4px 18px;
+  border: 2px solid #3f3f46;
+  border-radius: 999px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  white-space: nowrap;
+}
